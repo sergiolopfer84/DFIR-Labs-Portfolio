@@ -33,9 +33,9 @@ No additional artifacts (USN or $LogFile) were used in this lab. The analysis fo
 
 The extracted $MFT artifact was parsed using:
 
-´´´
+
 .\MFTECmd.exe -f "..$MFT.copy0" --csv .\ --csvf mft_analysis.csv
-´´´
+
 
 This generated a structured CSV file containing NTFS metadata records.
 
