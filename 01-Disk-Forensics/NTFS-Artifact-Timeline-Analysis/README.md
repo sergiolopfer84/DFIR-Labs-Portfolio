@@ -79,6 +79,17 @@ The $LogFile recorded transactional operations including rename, metadata update
 The $UsnJrnl confirmed the chronological sequence of events.
 
 ---
+## 🔎 Evidence – Artifact Extraction
+
+![Artifact Extraction](images/ntfs-artifact-extraction.png)
+
+## 🔄 Parsing Process
+
+![NTFS Log Tracker Parse](images/ntfs-logtracker-parse.png)
+
+## 📊 Reconstructed Timeline
+
+![Timeline Results](images/ntfs-timeline-results.png)
 
 ## 🔎 Key Findings
 
