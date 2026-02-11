@@ -77,3 +77,16 @@ Carving provides a recovery method when traditional file system-based analysis f
 
 ## 📎 Supporting Documentation
 Full original lab documentation available
+
+`PhotoRec-Carving-Documentation.pdf`
+
+## 🧩 Lessons Learned
+
+- Signature-based carving remains effective even when file system metadata is unavailable or intentionally removed.
+- Selecting the **Free** option reduces noise and focuses the investigation on deleted artifacts.
+- Carved files lose contextual metadata (original name, path, timestamps), which limits attribution without further analysis.
+- Fragmentation can affect recovery integrity, producing partial or corrupted files.
+- Proper forensic workflow requires validating recovered artifacts with hashing to maintain evidentiary integrity.
+
+This lab reinforced the importance of low-level disk analysis when investigating evidence destruction or anti-forensic activity.
+
