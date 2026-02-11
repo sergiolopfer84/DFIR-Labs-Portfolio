@@ -48,6 +48,19 @@ For forensic relevance, the **Free** option was selected to focus specifically o
 - Deleted content successfully extracted from unallocated space
 - Files exported to designated recovery directory
 
+### 🔎 Evidence – Free Space Analysis
+
+![Free Option](images/photorec-free-option.png)
+
+### 📊 Recovery Results
+
+![Recovery Results](images/photorec-recovery-results.png)
+
+### 📁 Recovered Files
+
+![Recovered Files](images/photorec-recovered-files.png)
+
+
 ## ⚖️ Forensic Considerations
 - Carving may produce fragmented or partially corrupted files
 - Original filenames and paths are not preserved
