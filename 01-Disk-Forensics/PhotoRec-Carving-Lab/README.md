@@ -1,52 +1,88 @@
 # 🧪 Lab: File Recovery using PhotoRec (Data Carving)
 
+## 🧾 Scenario
+
+A forensic disk image in E01 format was provided as part of a simulated investigation involving potential deletion of user data.  
+The objective was to determine whether deleted artifacts could be recovered from unallocated space.
+
+---
+
 ## 🎯 Objective
-Recover deleted files from a forensic disk image using signature-based carving techniques without relying on file system metadata (MFT).
+
+Recover deleted files from the forensic image using signature-based carving techniques without relying on file system metadata (MFT).
+
+---
 
 ## 🧠 Technical Background
-Data carving is a forensic recovery technique that extracts files directly from raw disk sectors by identifying file signatures (headers and footers).
 
-Unlike traditional recovery methods, carving:
-- Does not depend on MFT or inode entries
-- Works even when the file system is corrupted
-- Allows recovery from unallocated space
-- Is useful when metadata has been intentionally deleted
+Data carving is a forensic technique that extracts files directly from raw disk sectors by identifying file signatures (headers and footers), independently of file system structures.
 
-This technique is commonly used in incident response and forensic investigations involving evidence tampering.
+This method is particularly useful when:
+
+- File system metadata has been deleted or overwritten
+- The disk has been partially corrupted
+- Evidence destruction is suspected
+- Only unallocated space remains accessible
+
+---
 
 ## 🛠 Tools Used
+
 - CAINE Linux
 - ewfmount
 - losetup
 - PhotoRec
 
+---
+
 ## 🔄 Investigation Workflow
 
 ### 1️⃣ Mount E01 Image
-The forensic `.E01` image was mounted using:
-ewfmount image.E01 imagenEWFRaw/
 
-This converts the image into a RAW-accessible format.
+The forensic image was mounted using:
+
+```
+ewfmount image.E01 imagenEWFRaw/
+```
+
+This converts the E01 container into a RAW-accessible file.
+
+---
 
 ### 2️⃣ Associate RAW Image with Loop Device
+
+
+```
 losetup -fP imagenEWFRaw/ewf1
+```
 
-This allows the system to treat the image as a physical disk (`/dev/loopX`) with accessible partitions.
+This step allowed the system to treat the image as a physical disk (`/dev/loopX`) and access its partitions directly.
 
-### 3️⃣ Run PhotoRec
-PhotoRec was executed against the selected partition.
+---
+
+### 3️⃣ Execute Carving with PhotoRec
+
+PhotoRec was executed against the target partition.
 
 Two analysis modes were evaluated:
-- **Free** → Scan unallocated space only
-- **Whole** → Scan entire partition
 
-For forensic relevance, the **Free** option was selected to focus specifically on deleted artifacts.
+- **Free** → Scan unallocated space only  
+- **Whole** → Scan entire partition  
+
+Given the investigation goal (recover deleted artifacts only), the **Free** option was selected to reduce noise and focus exclusively on unallocated space.
+
+---
 
 ## 📊 Results
+
 - 214 files recovered
-- Multiple PNG artifacts reconstructed
-- Deleted content successfully extracted from unallocated space
-- Files exported to designated recovery directory
+- Majority of recovered artifacts were PNG image files
+- Deleted content successfully reconstructed from unallocated space
+- No executable binaries or clearly malicious files identified during initial review
+
+Recovered files were exported to a controlled recovery directory.
+
+---
 
 ### 🔎 Evidence – Free Space Analysis
 
@@ -60,33 +96,39 @@ For forensic relevance, the **Free** option was selected to focus specifically o
 
 ![Recovered Files](images/photorec-recovered-files.png)
 
+---
 
 ## ⚖️ Forensic Considerations
-- Carving may produce fragmented or partially corrupted files
-- Original filenames and paths are not preserved
-- Hash verification should be performed to maintain evidentiary integrity
 
-## 🔐 SOC / Incident Response Relevance
-This type of recovery is critical when:
-- An attacker attempts to delete evidence
-- Malware artifacts are hidden in unallocated space
-- Insider threats remove sensitive data
-- File system metadata has been damaged or wiped
+- Carved files lose original filenames, directory paths, and metadata
+- Fragmentation may result in partially corrupted files
+- Carving alone does not provide contextual attribution
+- Recovered artifacts should be hash-validated to ensure evidentiary integrity
 
-Carving provides a recovery method when traditional file system-based analysis fails.
+---
 
-## 📎 Supporting Documentation
-Full original lab documentation available
+## 🔐 Incident Response & SOC Relevance
 
-`PhotoRec-Carving-Documentation.pdf`
+In real-world incident response scenarios, carving is particularly useful when:
+
+- An attacker attempts to delete evidence to evade detection
+- Logs or sensitive files are intentionally removed
+- File system metadata is damaged or wiped
+- Insider activity involves data destruction
+
+Carving provides a recovery mechanism when traditional file system-based analysis fails.
+
+---
 
 ## 🧩 Lessons Learned
 
-- Signature-based carving remains effective even when file system metadata is unavailable or intentionally removed.
-- Selecting the **Free** option reduces noise and focuses the investigation on deleted artifacts.
-- Carved files lose contextual metadata (original name, path, timestamps), which limits attribution without further analysis.
-- Fragmentation can affect recovery integrity, producing partial or corrupted files.
-- Proper forensic workflow requires validating recovered artifacts with hashing to maintain evidentiary integrity.
+- Signature-based carving remains effective even without file system metadata.
+- Selecting the appropriate scan scope (Free vs Whole) significantly impacts forensic efficiency.
+- Recovery does not equal attribution; contextual correlation is still required.
+- Low-level disk knowledge is essential when investigating anti-forensic behavior.
 
-This lab reinforced the importance of low-level disk analysis when investigating evidence destruction or anti-forensic activity.
+---
 
+## 📎 Supporting Documentation
+
+`PhotoRec-Carving-Documentation.pdf`
