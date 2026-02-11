@@ -35,7 +35,6 @@ The extracted $MFT artifact was parsed using:
 
 ´´´
 .\MFTECmd.exe -f "..$MFT.copy0" --csv .\ --csvf mft_analysis.csv
-
 ´´´
 
 This generated a structured CSV file containing NTFS metadata records.
