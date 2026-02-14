@@ -91,131 +91,109 @@ All original files were preserved to maintain forensic integrity.
 
 Each hive was processed using RegRipper with the corresponding profile:
 
-- `sam`
-- `software`
-- `system`
-- `security`
-- `ntuser`
+- sam
+- software
+- system
+- security
+- ntuser
 
 RegRipper generated structured text reports containing extracted artifacts.
 
 ---
 
-### 3️⃣ Command-Line Analysis (Example)
-
-Example of targeted plugin execution:
+### 3️⃣ Command-Line Analysis Example
 
 ```bash
 rip -r NTUSER.DAT -p userassist
+```
 This command extracts:
 
-Executed programs
+- Executed programs
+- Execution count
+- Last execution timestamp
 
-Execution count
+---
 
-Last execution timestamp
+## 📊 Key Artifacts Extracted
 
-📊 Key Artifacts Extracted
-🔹 From SOFTWARE Hive
-OS version
+### 🔹 From SOFTWARE Hive
 
-Hostname
+- OS version
+- Hostname
+- Installation date
+- Installed applications (name, version, publisher)
+- Auto-start entries (Run / RunOnce)
+- Compatibility settings
 
-Installation date
+**Forensic value:**
 
-Installed applications (name, version, publisher)
+- Detect unauthorized software
+- Identify forensic tools present on system
+- Establish software installation timeline
 
-Auto-start entries (Run / RunOnce)
+---
 
-Compatibility settings
+### 🔹 From NTUSER.DAT Hive
 
-Forensic value:
+- UserAssist (executed programs)
+- MRUs (Most Recently Used documents)
+- ShellBags (folder access history)
+- Run keys (user-level persistence)
+- Jump Lists
+- Search history (WordWheelQuery)
+- TypedPaths
+- RunMRU entries
 
-Detect unauthorized software
+---
 
-Identify forensic tools present on system
+### 🔎 UserAssist – Execution History
 
-Establish software installation timeline
+![UserAssist Output](images/userassist_output.png)
 
-🔹 From NTUSER.DAT Hive
-UserAssist (executed programs)
+This output shows executed programs extracted from `NTUSER.DAT` using the `userassist` plugin.
 
-MRUs (Most Recently Used documents)
+Each entry includes:
 
-ShellBags (folder access history)
+- UTC timestamp of last execution
+- Executable path
+- Execution counter
 
-Run keys (user-level persistence)
+**Forensic value:**
 
-Jump Lists
+- Reconstruct user behavior
+- Identify tools executed before or after an incident
+- Detect potential misuse of administrative or forensic tools
 
-Search history (WordWheelQuery)
+---
 
-TypedPaths
+## ⚖️ Forensic Considerations
 
-RunMRU entries
+- RegRipper output must be validated against raw hive data.
+- Automated extraction does not replace manual verification.
+- Registry timestamps reflect key modification, not necessarily direct user interaction.
+- Multi-hive correlation is required for accurate timeline reconstruction.
 
-Forensic value:
+---
 
-Reconstruct user behavior
+## 🔐 SOC & Incident Response Relevance
 
-Detect recently executed tools
-
-Identify access to removable media
-
-Investigate insider activity
-
-Detect user-level persistence
-
-📈 Example Forensic Interpretation
-UserAssist entries provide:
-
-UTC timestamp of last execution
-
-Executable path
-
-Execution count
-
-This allows analysts to:
-
-Determine software usage frequency
-
-Identify tools executed before or after an incident
-
-Correlate activity with timeline artifacts
-
-⚖️ Forensic Considerations
-RegRipper output must be validated against raw hive data.
-
-Automated extraction does not replace manual verification.
-
-Registry timestamps reflect key modification, not necessarily direct user interaction.
-
-Multi-hive correlation is required for accurate timeline reconstruction.
-
-🔐 SOC & Incident Response Relevance
 RegRipper-based registry analysis is critical for:
 
-Post-compromise host analysis
-
-Insider threat investigations
-
-Detection of persistence mechanisms
-
-Identifying unauthorized tools
-
-Reconstructing user behavior
-
-Incident timeline development
+- Post-compromise host analysis
+- Insider threat investigations
+- Detection of persistence mechanisms
+- Identifying unauthorized tools
+- Reconstructing user behavior
+- Incident timeline development
 
 Automated registry parsing significantly accelerates triage during incident response.
 
-🧩 Lessons Learned
-Multi-hive analysis provides deeper investigative insight than single-hive analysis.
+---
 
-NTUSER.DAT is crucial for user-level behavioral reconstruction.
+## 🧩 Lessons Learned
 
-UserAssist and Run keys are high-value persistence indicators.
-
-Automation improves efficiency but requires analyst validation.
-
-Registry analysis is foundational in Windows DFIR investigations.
+- Multi-hive analysis provides deeper investigative insight than single-hive analysis.
+- NTUSER.DAT is crucial for user-level behavioral reconstruction.
+- UserAssist and Run keys are high-value persistence indicators.
+- Automation improves efficiency but requires analyst validation.
+- Registry analysis is foundational in Windows DFIR investigations.
