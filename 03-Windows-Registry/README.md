@@ -1,7 +1,5 @@
 # 🔍 Windows SAM Hive Analysis – DFIR Lab
 
----
-
 ## 🧪 Lab: Windows SAM Hive Analysis (Account Activity Reconstruction)
 
 ---
@@ -96,6 +94,19 @@ The hive was loaded into Registry Explorer to extract:
 
 ---
 
+### 🔎 Registry Explorer – Detailed Account Structure
+
+![Registry Explorer User View](images/registry_explorer_users.png)
+
+The SAM hive was analyzed at the RID level under:
+
+SAM\Domains\Account\Users
+
+
+Each subkey corresponds to a unique RID, enabling detailed account-level forensic reconstruction.
+
+---
+
 ### 3️⃣ Timestamp Validation (Windows Registry Recovery)
 
 Windows Registry Recovery was used to:
@@ -107,19 +118,21 @@ Windows Registry Recovery was used to:
 
 ---
 
+### 🔎 Windows Registry Recovery – Account Overview
+
+![SAM Accounts View](images/sam_accounts_view.png)
+
+This view provides a clear overview of local accounts, SID values, last logon timestamps and account expiration data extracted from the SAM hive.
+
+---
+
 ## 📊 Key Findings
 
 - Local accounts were identifiable via RID/SID.  
 - Account group membership was recoverable.  
 - Login-related timestamps were present.  
 - Account configuration flags provided security posture insight.  
-- Registry LastWrite timestamps were accessible for timeline correlation.
-- 
-### 🔎 Windows Registry Recovery – Account Overview
-
-![SAM Accounts View](images/sam_accounts_view.png)
-
-This view provides a clear overview of local accounts, SID values, last logon timestamps and account expiration data extracted from the SAM hive.
+- Registry LastWrite timestamps were accessible for timeline correlation.  
 
 ---
 
@@ -132,16 +145,6 @@ This view provides a clear overview of local accounts, SID values, last logon ti
   - NTUSER.DAT (user profile activity)
 - Some account creation timestamps require cross-hive correlation.
 - Registry timestamps reflect key modification, not necessarily user login action.
-- 
-### 🔎 Registry Explorer – Detailed Account Structure
-
-![Registry Explorer User View](images/registry_explorer_users.png)
-
-The SAM hive was analyzed at the RID level under:
-
-`SAM\Domains\Account\Users`
-
-Each subkey corresponds to a unique RID, enabling detailed account-level forensic reconstruction.
 
 ---
 
