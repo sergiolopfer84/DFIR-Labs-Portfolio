@@ -113,7 +113,13 @@ Windows Registry Recovery was used to:
 - Account group membership was recoverable.  
 - Login-related timestamps were present.  
 - Account configuration flags provided security posture insight.  
-- Registry LastWrite timestamps were accessible for timeline correlation.  
+- Registry LastWrite timestamps were accessible for timeline correlation.
+- 
+### 🔎 Windows Registry Recovery – Account Overview
+
+![SAM Accounts View](images/sam_accounts_view.png)
+
+This view provides a clear overview of local accounts, SID values, last logon timestamps and account expiration data extracted from the SAM hive.
 
 ---
 
@@ -126,6 +132,16 @@ Windows Registry Recovery was used to:
   - NTUSER.DAT (user profile activity)
 - Some account creation timestamps require cross-hive correlation.
 - Registry timestamps reflect key modification, not necessarily user login action.
+- 
+### 🔎 Registry Explorer – Detailed Account Structure
+
+![Registry Explorer User View](images/registry_explorer_users.png)
+
+The SAM hive was analyzed at the RID level under:
+
+`SAM\Domains\Account\Users`
+
+Each subkey corresponds to a unique RID, enabling detailed account-level forensic reconstruction.
 
 ---
 
