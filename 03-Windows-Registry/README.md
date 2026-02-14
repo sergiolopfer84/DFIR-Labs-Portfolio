@@ -1,5 +1,4 @@
 🔍 Windows SAM Hive Analysis – DFIR Lab
-
 🧪 Lab: Windows SAM Hive Analysis (Account Activity Reconstruction)
 🧾 Scenario
 
