@@ -1,40 +1,69 @@
 # 🔍 DFIR Labs Portfolio – Sergio López Fernández
 
-This repository contains structured Digital Forensics and Incident Response (DFIR) labs completed as part of my cybersecurity specialization and hands-on training.
+This repository documents structured Digital Forensics and Incident Response (DFIR) investigations performed as part of my cybersecurity specialization and hands-on technical development.
 
-The focus is on host-based forensic analysis, artifact reconstruction, and investigative methodology aligned with SOC Analyst roles.
+The focus is on **host-based forensic analysis, artifact reconstruction, and low-level filesystem investigation**, aligned with SOC Analyst and entry-level DFIR roles.
+
+---
+
+## 👤 About This Portfolio
+
+Unlike theoretical summaries, these labs emphasize:
+
+- Direct interaction with forensic images (E01, raw)
+- NTFS internal structure analysis
+- MFT-level inspection
+- Artifact correlation (Registry, Prefetch, ShellBags, USB)
+- Raw block examination
+- Evidence handling in read-only environments
+
+The objective is to demonstrate practical investigative capability rather than tool familiarity alone.
 
 ---
 
 ## 🎯 Professional Objective
 
-To develop real-world technical capabilities aligned with SOC Analyst Level 1 roles, focusing on:
+Develop real-world technical capabilities aligned with:
+
+- SOC Analyst Level 1
+- Incident Response Analyst (Junior)
+- Threat Detection & Host Investigation Roles
+
+Core focus areas:
 
 - Host-based forensic analysis
-- Incident investigation
+- Incident investigation methodology
 - Artifact reconstruction
-- Registry analysis
+- Registry and metadata analysis
 - Log correlation
 - Evidence handling and reporting
-- Threat detection fundamentals
+- Filesystem-level investigation
 
 ---
 
-## 🛠 Tools Used
+## 🛠 Technical Stack
 
+### Disk & Filesystem Analysis
+- Sleuth Kit (mmls, fsstat, fls, istat, blkcat)
 - FTK Imager
 - Autopsy
 - CAINE
 - Guymager
+
+### Windows Artifact Analysis
+- RegRipper
+- Eric Zimmerman Tools
+- NirSoft Utilities
+- Windows Event Viewer
+
+### Memory & Volatile Data
 - Belkasoft RAM Capturer
 - RAMCapturer
 - LiME
+
+### Network & Log Analysis
 - Wireshark
 - Splunk
-- RegRipper
-- NirSoft utilities
-- Eric Zimmerman tools
-- Windows Event Viewer
 
 ---
 
@@ -43,27 +72,39 @@ To develop real-world technical capabilities aligned with SOC Analyst Level 1 ro
 ### 01 – Disk Forensics
 - FAT16 Partition Analysis
 - MBR Extraction & Hash Verification
-- MFT Metadata & Timeline Analysis
-- NTFS Artifact Timeline Analysis
+- NTFS MFT Metadata Analysis
+- Timeline Reconstruction
 - PhotoRec File Carving
 
 ### 02 – Windows Artifact Analysis
 - ShellBags Analysis
 - USB Device Forensics
+- Prefetch Investigation
+- Browser Artifact Analysis
 
 ### 03 – Windows Registry Forensics
-- Windows SAM Hive Analysis (manual)
-- RegRipper Automated Multi-Hive Analysis
+- Windows SAM Hive Analysis (Manual)
+- Automated Multi-Hive Analysis with RegRipper
 
-Each lab includes:
+### 04 – NTFS Analysis with Sleuth Kit
+- Partition Identification (mmls)
+- Filesystem Structure Validation (fsstat)
+- File Enumeration (fls)
+- MFT Metadata Inspection (istat)
+- Raw Block Extraction (blkcat)
 
-- Investigation scenario
-- Technical background
-- Methodology
-- Artifact interpretation
-- Forensic considerations
-- SOC relevance
-- Lessons learned
+---
+
+## 🔬 Investigation Methodology
+
+Each lab follows a structured forensic workflow:
+
+1. Evidence integrity validation
+2. Partition and filesystem identification
+3. Artifact enumeration
+4. Metadata inspection
+5. Correlation and interpretation
+6. SOC relevance analysis
 
 ---
 
@@ -76,11 +117,12 @@ This portfolio supports progression toward:
 - CompTIA Security+
 - Advanced DFIR Specialization
 
-The repository reflects practical, tool-driven analysis rather than theoretical summaries.
+The emphasis is on building practical investigation capability before certification stacking.
 
 ---
 
 ## ⚠️ Disclaimer
 
-No sensitive or proprietary data is included.  
+No sensitive or proprietary data is included.
+
 All materials originate from controlled laboratory or simulated environments.
