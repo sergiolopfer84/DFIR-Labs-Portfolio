@@ -2,36 +2,25 @@
 
 ## 🎯 Objective
 
-Perform forensic analysis of a Windows 10 disk image (E01 format) using Sleuth Kit tools in CAINE Linux to:
+Perform forensic analysis of a Windows 10 disk image (E01 format) using Sleuth Kit in CAINE Linux to:
 
 - Identify partition structure
 - Validate NTFS filesystem parameters
-- Enumerate files and directories
-- Inspect MFT metadata entries
+- Enumerate system files
 - Extract raw data at block level
-- Demonstrate proper forensic workflow in read-only mode
+- Demonstrate structured forensic workflow in read-only mode
 
 ---
 
 ## 🧪 Evidence Details
 
-- Image Name: `windows_001_10.E01`
+- Image: `windows_001_10.E01`
 - Format: E01 (EnCase evidence format)
 - Filesystem: NTFS
 - Analysis Environment: CAINE Linux
-- Mount Mode: Read-only (victim disk and acquisition disk)
+- Mount Mode: Read-only (evidence integrity preserved)
 
-All analysis was performed in **read-only mode** to preserve evidence integrity.
-
----
-
-## 🛠️ Tools Used
-
-- `mmls`
-- `fsstat`
-- `fls`
-- `istat`
-- `blkcat`
+Both victim disk and acquisition disk were mounted in **read-only mode** to ensure forensic soundness.
 
 ---
 
@@ -41,7 +30,11 @@ All analysis was performed in **read-only mode** to preserve evidence integrity.
 mmls windows_001_10.E01
 ```
 
-### 🔎 Findings
+## 🔎 Output
+
+![mmls output](screenshots/01_mmls.png)
+
+### 🧠 Interpretation
 
 - NTFS partition start sector: **2048**
 - Partition length: **104853504 sectors**
@@ -53,7 +46,7 @@ mmls windows_001_10.E01
 104853504 × 512 = 53.68 GB
 ```
 
-✔ Confirmed valid NTFS partition structure.
+✔ A valid NTFS partition was identified and its offset determined for further analysis.
 
 ---
 
@@ -63,15 +56,19 @@ mmls windows_001_10.E01
 fsstat windows_001_10.E01 -o 2048
 ```
 
-### 🔎 Key Information Extracted
+## 🔎 Output
+
+![fsstat output](screenshots/02_fsstat.png)
+
+### 🧠 Key Information Extracted
 
 - Filesystem type: NTFS
 - Cluster size identified
-- MFT starting cluster located
+- MFT starting location detected
 - Root directory entry confirmed
 - Total sector and cluster ranges validated
 
-✔ Verified filesystem structure before deeper inspection.
+✔ The filesystem structure was verified before proceeding with deeper inspection.
 
 ---
 
@@ -81,9 +78,13 @@ fsstat windows_001_10.E01 -o 2048
 fls windows_001_10.E01 -o 2048
 ```
 
-### 🔎 Observed Structure
+## 🔎 Output
 
-Detected key system components:
+![fls output](screenshots/03_fls.png)
+
+### 🧠 Observed System Structure
+
+Key system components detected:
 
 - `Windows`
 - `Program Files`
@@ -93,62 +94,38 @@ Detected key system components:
 - `$Recycle.Bin`
 - `System Volume Information`
 
-✔ Confirmed full directory structure from forensic image.
+✔ The directory hierarchy was successfully reconstructed directly from the forensic image.
 
 ---
 
-# 4️⃣ MFT Entry Analysis – istat
+# 4️⃣ Raw Block Extraction – blkcat
 
 ```bash
-istat windows_001_10.E01 -o 2048 52880
+blkcat windows_001_10.E01 -o 2048 <block_number>
 ```
 
-### 🔎 Metadata Reviewed
+## 🔎 Output
 
-- `$STANDARD_INFORMATION` timestamps:
-  - Created
-  - Modified
-  - MFT Modified
-  - Accessed
+![blkcat output](screenshots/04_blkcat.png)
 
-- `$FILE_NAME` timestamps
-- File flags (Hidden, System, Directory)
-- Parent MFT reference
-- Block allocation details
-
-✔ Verified metadata integrity at NTFS internal level.
-
-### 🧠 Forensic Relevance
-
-Comparing `$STANDARD_INFORMATION` and `$FILE_NAME` timestamps is essential for detecting potential timestamp manipulation (timestomping).
-
----
-
-# 5️⃣ Raw Block Inspection – blkcat
-
-```bash
-blkcat windows_001_10.E01 -o 2048 1713959
-```
-
-### 🔎 Result
+### 🧠 Analysis
 
 - Extracted raw content directly from a logical NTFS block
-- Bypassed logical file structure
-- Verified actual stored content
+- Bypassed logical file parsing
+- Verified actual stored data at disk level
 
-✔ Demonstrated low-level disk inspection capability.
+✔ Demonstrated low-level forensic capability by inspecting raw block data.
 
 ---
 
 # 🔁 Forensic Workflow Summary
 
-1. Identify partitions → `mmls`
+1. Identify partition structure → `mmls`
 2. Validate filesystem parameters → `fsstat`
-3. Enumerate files → `fls`
-4. Inspect metadata → `istat`
-5. Extract raw data → `blkcat`
+3. Enumerate files and directories → `fls`
+4. Extract raw content at block level → `blkcat`
 
-This structured approach ensures accurate and defensible forensic analysis.
+This structured methodology ensures defensible forensic analysis.
 
 ---
 
@@ -156,42 +133,26 @@ This structured approach ensures accurate and defensible forensic analysis.
 
 This lab demonstrates:
 
-- Understanding of NTFS internal structures
-- Ability to work at MFT level
-- Direct interaction with disk image at block level
-- Proper evidence handling methodology
-- Linux-based forensic workflow proficiency
+- Understanding of NTFS partitioning
+- Offset-based filesystem analysis
+- Direct disk image interaction
+- Low-level block inspection
+- Proper evidence handling practices
+
+These are fundamental skills required in DFIR and SOC investigations.
 
 ---
 
-# 🔎 Investigation Perspective
+# 🚀 Potential Extensions
 
-Although this lab focuses on structural analysis, the same methodology can be applied to:
+Future improvements could include:
 
-- Investigate suspicious files
-- Detect timestamp manipulation
-- Identify deleted file artifacts
-- Validate file integrity
-- Analyze partially overwritten data
-
----
-
-# 📚 Lessons Learned
-
-- NTFS metadata analysis is critical for detecting anomalies.
-- Timestamps must be validated at multiple attribute levels.
-- Raw block extraction allows validation beyond logical parsing.
-- Partition offset identification is fundamental before any filesystem analysis.
-
----
-
-# 🚀 Future Improvements
-
-- Recover deleted files using `fls -d`
-- Extract files with `icat`
-- Analyze Alternate Data Streams (ADS)
-- Inspect `$LogFile` and `$UsnJrnl`
-- Perform full timeline reconstruction
+- Deleted file recovery (`fls -d`)
+- File extraction using `icat`
+- MFT metadata inspection using `istat`
+- Analysis of Alternate Data Streams (ADS)
+- Investigation of `$LogFile` and `$UsnJrnl`
+- Full timeline reconstruction
 
 ---
 
@@ -199,4 +160,4 @@ Although this lab focuses on structural analysis, the same methodology can be ap
 
 The Windows forensic image was successfully analyzed using Sleuth Kit in CAINE.
 
-The workflow validated partition structure, inspected NTFS metadata, and demonstrated raw-level data extraction — core skills required for DFIR and SOC-level investigations.
+The investigation validated partition structure, confirmed NTFS parameters, reconstructed directory hierarchy, and demonstrated raw block inspection — core competencies in digital forensic investigations.
