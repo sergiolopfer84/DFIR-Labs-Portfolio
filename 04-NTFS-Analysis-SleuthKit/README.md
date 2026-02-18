@@ -32,7 +32,7 @@ mmls windows_001_10.E01
 
 ## 🔎 Output
 
-![mmls output](screenshots/01_mmls.png)
+![mmls output](images/01_mmls.png)
 
 ### 🧠 Interpretation
 
@@ -58,7 +58,7 @@ fsstat windows_001_10.E01 -o 2048
 
 ## 🔎 Output
 
-![fsstat output](screenshots/02_fsstat.png)
+![fsstat output](images/02_fsstat.png)
 
 ### 🧠 Key Information Extracted
 
@@ -80,7 +80,7 @@ fls windows_001_10.E01 -o 2048
 
 ## 🔎 Output
 
-![fls output](screenshots/03_fls.png)
+![fls output](images/03_fls.png)
 
 ### 🧠 Observed System Structure
 
@@ -106,7 +106,7 @@ blkcat windows_001_10.E01 -o 2048 <block_number>
 
 ## 🔎 Output
 
-![blkcat output](screenshots/04_blkcat.png)
+![blkcat output](images/04_blkcat.png)
 
 ### 🧠 Analysis
 
