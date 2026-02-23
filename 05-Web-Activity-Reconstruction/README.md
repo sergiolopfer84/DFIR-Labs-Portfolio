@@ -4,13 +4,13 @@
 
 A Windows user workstation was analyzed after suspicion of non-authorized web usage during working hours.
 
-The objective was to reconstruct the user’s web browsing activity and determine:
+The objective of this investigation was to reconstruct browser activity and determine:
 
 - What websites were accessed
 - What searches were performed
 - Whether files were downloaded or opened
-- If any suspicious or malicious domains were visited
-- If activity correlates with local file access
+- If suspicious or malicious domains were visited
+- If browser activity correlates with local file interaction
 
 ---
 
@@ -19,23 +19,29 @@ The objective was to reconstruct the user’s web browsing activity and determin
 - Wintriage (evidence acquisition)
 - ChromeHistoryView (Nirsoft)
 - BrowsingHistoryView (Nirsoft)
-- Windows File System Artifacts
 
 ---
 
 ## 📂 Evidence Source
 
-Browser history extracted from:
+Browser artifacts extracted from:
+
 - Google Chrome (Chromium-based)
-- User profile directory
+- Windows user profile directory
 
 ---
 
-## 🔎 Step 1 – ChromeHistoryView Analysis
+# 🔎 Step 1 – Chrome History Analysis
 
-ChromeHistoryView was used to analyze the SQLite `History` database.
+ChromeHistoryView was used to parse the SQLite `History` database from the user profile.
 
-### Key Fields Analyzed
+### 📸 Evidence Screenshot
+
+![Chrome History Analysis](images/chrome_history.png)
+
+---
+
+## 📊 Key Fields Examined
 
 - URL
 - Title
@@ -48,39 +54,50 @@ ChromeHistoryView was used to analyze the SQLite `History` database.
 
 ---
 
-### 📊 Findings
+## 🔎 Findings
 
-#### 🔹 Repeated Website Access
+### 🔹 Repeated Media Website Access
 
-- `https://rtvc.es/en-directo/`
-- Multiple visits on 08/08/2025 between 09:46 and 10:31
-- Accessed via Google search query (`search?q=rtvc`)
+- URL: `https://rtvc.es/en-directo/`
+- Multiple visits recorded on **08/08/2025**
+- Time range: **09:46 – 10:31**
+- Access initiated from Google search query
 
-**Interpretation:**  
+**Interpretation:**
 User actively accessed live streaming media content during working hours.
 
 ---
 
-#### 🔹 Search Activity Identified
+### 🔹 Search Activity Identified
 
-Example search query:
+Example query observed:
 
 - "jurassic world rebirth poster imdb"
 
-**Interpretation:**  
-Search conducted manually (confirmed via Typed Count > 0).
+Typed Count > 0 confirms manual input into the browser address/search bar.
+
+**Interpretation:**
+Indicates intentional user search activity rather than automatic redirection.
 
 ---
 
-## 🔎 Step 2 – BrowsingHistoryView Analysis
+# 🔎 Step 2 – Multi-Browser & Local Access Correlation
 
-BrowsingHistoryView was used to correlate multi-browser activity and detect local file access.
+BrowsingHistoryView was used to identify:
+
+- Multi-browser activity
+- Access to local files via `file://`
+- Access to system folders
+
+### 📸 Evidence Screenshot
+
+![Browsing History Analysis](images/browsing_history.png)
 
 ---
 
-### 📂 Local File Access (file://)
+## 📂 Local File Access Observed
 
-Observed entries:
+Examples:
 
 
 file:///C:/Users/Usuario/Desktop/Guías/Práctica Volatility.odt
@@ -89,78 +106,82 @@ file:///C:/Users/Usuario/Downloads/
 
 **Interpretation:**
 
-- User opened a local .odt document from Desktop.
+- User opened a local `.odt` document from Desktop.
 - User accessed Downloads folder.
-- Confirms interaction with local files during same session timeframe.
+- Activity occurred within same browsing session timeframe.
+
+This confirms correlation between web browsing and local file interaction.
 
 ---
 
-## 🧵 Timeline Reconstruction
+# 🧵 Timeline Reconstruction
 
 | Date       | Time   | Activity |
 |------------|--------|----------|
 | 08/08/2025 | 09:46  | Google search performed |
 | 08/08/2025 | 09:48  | Access to rtvc.es |
-| 08/08/2025 | 10:05  | Local file opened (.odt) |
+| 08/08/2025 | 10:05  | Local document opened (.odt) |
 | 08/08/2025 | 10:12  | Downloads folder accessed |
 
 ---
 
-## 🚨 Suspicious Indicators Assessment
+# 🚨 Suspicious Activity Assessment
 
-- ❌ No access to known malicious domains
-- ❌ No suspicious download URLs
-- ❌ No evidence of phishing or exploit kits
-- ❌ No high-risk external IP connections observed
+After reviewing the extracted data:
+
+- ❌ No known malicious domains detected
+- ❌ No suspicious download URLs observed
+- ❌ No phishing indicators identified
+- ❌ No abnormal redirection chains
 
 Activity appears consistent with:
 
 - Media streaming
-- Educational research
-- Local document access
+- Online research
+- Academic document usage
 
 ---
 
-## 🔗 Correlation Opportunities (Advanced DFIR)
+# 🔗 Correlation Opportunities (Advanced DFIR)
 
-This browser artifact analysis can be correlated with:
+This analysis can be expanded by correlating with:
 
-- Prefetch (to confirm browser execution times)
-- Amcache (to confirm downloaded executables)
-- Event Logs (to verify session logon time)
-- Memory analysis (if dump available)
+- Prefetch (browser execution confirmation)
+- Amcache (downloaded executables validation)
+- Windows Event Logs (logon session confirmation)
+- Memory dump (if available)
 
 ---
 
-## ✅ Conclusion
+# ✅ Conclusion
 
-The reconstructed browsing history indicates:
+The reconstructed browsing history demonstrates:
 
-- Repeated access to media content
-- Educational platform usage
+- Repeated access to streaming media
 - Manual search activity
 - Local document interaction
+- No evidence of compromise
 
-No indicators of compromise were detected in this dataset.
-
----
-
-## 📚 Lessons Learned
-
-- Browser artifacts provide strong insight into user intent.
-- Typed Count helps differentiate between direct URL entry and redirected traffic.
-- Referrer field helps reconstruct navigation chains.
-- `file://` entries are extremely valuable for correlating web and local activity.
-- Multisource artifact correlation significantly increases evidentiary strength.
+No indicators of malicious activity were identified in this dataset.
 
 ---
 
-## 🎯 DFIR Value
+# 📚 Lessons Learned
+
+- Browser artifacts provide strong evidence of user intent.
+- Typed Count helps distinguish manual navigation from redirections.
+- Referrer field assists in reconstructing navigation chains.
+- `file://` entries are highly valuable for correlating browser and local file activity.
+- Artifact correlation significantly strengthens forensic conclusions.
+
+---
+
+# 🎯 DFIR Value
 
 This lab demonstrates:
 
-- Web artifact extraction
+- Browser artifact extraction
 - Behavioral reconstruction
 - Timeline building
-- Analytical interpretation
+- Analytical reasoning
 - Suspicion validation methodology
