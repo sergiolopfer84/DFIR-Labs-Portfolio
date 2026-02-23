@@ -2,7 +2,7 @@
 
 This repository documents structured Digital Forensics and Incident Response (DFIR) investigations performed as part of my cybersecurity specialization and hands-on technical development.
 
-The focus is on **host-based forensic analysis, artifact reconstruction, and low-level filesystem investigation**, aligned with SOC Analyst and entry-level DFIR roles.
+The focus is on **host-based forensics, memory analysis, and network traffic investigation**, aligned with SOC Analyst and entry-level DFIR roles.
 
 ---
 
@@ -10,12 +10,15 @@ The focus is on **host-based forensic analysis, artifact reconstruction, and low
 
 Unlike theoretical summaries, these labs emphasize:
 
-- Direct interaction with forensic images (E01, raw)
-- NTFS internal structure analysis
-- MFT-level inspection
-- Artifact correlation (Registry, Prefetch, ShellBags, USB)
-- Raw block examination
+- Direct forensic image analysis (E01, raw)
+- NTFS internal structure inspection
+- MFT-level investigation
+- Windows artifact reconstruction
+- Browser activity reconstruction
+- PCAP traffic analysis
+- MAC and network attribution
 - Evidence handling in read-only environments
+- Structured investigative reporting
 
 The objective is to demonstrate practical investigative capability rather than tool familiarity alone.
 
@@ -31,10 +34,11 @@ Develop real-world technical capabilities aligned with:
 
 Core focus areas:
 
-- Host-based forensic analysis
+- Endpoint forensic analysis
 - Incident investigation methodology
 - Artifact reconstruction
 - Registry and metadata analysis
+- Network traffic analysis
 - Log correlation
 - Evidence handling and reporting
 - Filesystem-level investigation
@@ -57,6 +61,7 @@ Core focus areas:
 - Windows Event Viewer
 
 ### Memory & Volatile Data
+- Volatility 3
 - Belkasoft RAM Capturer
 - RAMCapturer
 - LiME
@@ -80,18 +85,30 @@ Core focus areas:
 - ShellBags Analysis
 - USB Device Forensics
 - Prefetch Investigation
-- Browser Artifact Analysis
+- Browser Artifact Reconstruction
 
 ### 03 – Windows Registry Forensics
 - Windows SAM Hive Analysis (Manual)
 - Automated Multi-Hive Analysis with RegRipper
 
-### 04 – NTFS Analysis with Sleuth Kit
+### 04 – NTFS Deep Analysis (Sleuth Kit)
 - Partition Identification (mmls)
 - Filesystem Structure Validation (fsstat)
 - File Enumeration (fls)
 - MFT Metadata Inspection (istat)
 - Raw Block Extraction (blkcat)
+
+### 05 – Web Activity Reconstruction
+- Chrome History Analysis
+- Multi-browser Artifact Correlation
+- Timeline Reconstruction
+
+### 06 – Network Traffic Investigation
+- HTTP Session Analysis
+- Domain Identification via Host Header
+- Internal/External IP Attribution
+- MAC Vendor Identification
+- PCAP Investigation Workflow
 
 ---
 
@@ -100,11 +117,12 @@ Core focus areas:
 Each lab follows a structured forensic workflow:
 
 1. Evidence integrity validation
-2. Partition and filesystem identification
-3. Artifact enumeration
-4. Metadata inspection
-5. Correlation and interpretation
-6. SOC relevance analysis
+2. Artifact identification
+3. Technical extraction
+4. Correlation across layers
+5. Analytical interpretation
+6. Suspicious activity assessment
+7. Structured reporting
 
 ---
 
@@ -112,12 +130,12 @@ Each lab follows a structured forensic workflow:
 
 This portfolio supports progression toward:
 
-- SOC Analyst L1
+- SOC Analyst L1 roles
 - Microsoft SC-200
 - CompTIA Security+
-- Advanced DFIR Specialization
+- Advanced DFIR specialization
 
-The emphasis is on building practical investigation capability before certification stacking.
+The emphasis is on building practical investigative capability before certification stacking.
 
 ---
 
@@ -125,4 +143,4 @@ The emphasis is on building practical investigation capability before certificat
 
 No sensitive or proprietary data is included.
 
-All materials originate from controlled laboratory or simulated environments.
+All materials originate from controlled laboratory or simulated environments
