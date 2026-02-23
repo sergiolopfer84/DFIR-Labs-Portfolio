@@ -1,0 +1,878 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Sergio – Portfolio (SOC L1 / DFIR)</title>
+
+  <!-- Pixel-ish font -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet">
+
+  <style>
+    :root{
+      --bg:#060a08;
+      --panel:#0d1410;
+      --panel2:#0a100c;
+      --ink:#d7ffe6;
+      --muted:#8fb9a0;
+      --green:#23ff7a;
+      --green2:#0ddb64;
+      --line:rgba(35,255,122,.22);
+      --line2:rgba(35,255,122,.10);
+      --shadow:rgba(0,0,0,.55);
+      --warning:#ffdd57;
+    }
+
+    /* === Cursor: lupa por defecto + mano en links === */
+    html,body{
+    cursor: url("./cursor-lupa.png") 16 16, auto; }
+a,button,[role="button"],.clickable{ cursor: pointer; }
+
+    *{box-sizing:border-box}
+    body{
+      margin:0;
+      background:
+        radial-gradient(900px 520px at 18% 18%, rgba(35,255,122,.12), transparent 55%),
+        radial-gradient(700px 420px at 85% 30%, rgba(35,255,122,.07), transparent 60%),
+        linear-gradient(180deg, #050806, var(--bg));
+      color:var(--ink);
+      font-family: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Arial;
+      line-height:1.6;
+      overflow-x:hidden;
+    }
+
+    /* Subtle scanlines */
+    body::before{
+      content:"";
+      position:fixed;
+      inset:0;
+      pointer-events:none;
+      background: repeating-linear-gradient(
+        to bottom,
+        rgba(255,255,255,0.03),
+        rgba(255,255,255,0.03) 1px,
+        rgba(0,0,0,0) 3px,
+        rgba(0,0,0,0) 6px
+      );
+      mix-blend-mode: overlay;
+      opacity:.18;
+      z-index:0;
+    }
+
+    .wrap{
+      position:relative;
+      z-index:1;
+      width:min(1120px, 92vw);
+      margin:0 auto;
+      padding:42px 0 90px;
+    }
+
+    /* Header */
+    .topbar{
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      gap:14px;
+      padding:16px 18px;
+      border:1px solid var(--line);
+      border-radius:16px;
+      background: linear-gradient(180deg, rgba(13,20,16,.88), rgba(8,12,10,.78));
+      box-shadow:0 18px 60px var(--shadow);
+      backdrop-filter: blur(8px);
+    }
+    .brand{
+      display:flex;
+      gap:12px;
+      align-items:center;
+      min-width: 280px;
+    }
+    .logo{
+      width:42px;height:42px;border-radius:10px;
+      border:1px solid var(--line);
+      background:
+        radial-gradient(16px 16px at 30% 30%, rgba(35,255,122,.6), transparent 60%),
+        linear-gradient(180deg, rgba(35,255,122,.08), rgba(0,0,0,.0));
+      box-shadow: 0 12px 40px rgba(35,255,122,.08);
+    }
+    .brand h1{
+      margin:0;
+      font-family:"Press Start 2P", monospace;
+      font-size:14px;
+      letter-spacing: .6px;
+      line-height:1.35;
+    }
+    .brand .sub{
+      display:block;
+      font-size:12px;
+      color:var(--muted);
+      margin-top:4px;
+      font-family: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Arial;
+      letter-spacing: .2px;
+    }
+
+    .nav{
+      display:flex;
+      gap:10px;
+      flex-wrap:wrap;
+      justify-content:flex-end;
+    }
+    .pill{
+      display:inline-flex;
+      align-items:center;
+      gap:8px;
+      padding:10px 12px;
+      border:1px solid var(--line2);
+      border-radius:12px;
+      text-decoration:none;
+      color:var(--ink);
+      background: rgba(0,0,0,.20);
+      transition: transform .15s ease, border-color .15s ease, background .15s ease;
+      font-size:14px;
+      white-space:nowrap;
+    }
+    .pill:hover{
+      transform: translateY(-1px);
+      border-color: rgba(35,255,122,.45);
+      background: rgba(35,255,122,.08);
+    }
+
+    /* Hero */
+    .hero{
+      margin-top:18px;
+      padding:22px 18px;
+      border:1px solid var(--line);
+      border-radius:18px;
+      background: linear-gradient(180deg, rgba(10,16,12,.72), rgba(7,10,8,.62));
+      box-shadow:0 20px 70px var(--shadow);
+      display:grid;
+      grid-template-columns: 1.25fr .75fr;
+      gap:18px;
+    }
+    @media (max-width: 900px){
+      .hero{grid-template-columns:1fr}
+      .brand{min-width:unset}
+    }
+
+    .heroTitle{
+      margin:0 0 8px;
+      font-family:"Press Start 2P", monospace;
+      font-size:18px;
+      line-height:1.5;
+    }
+    .heroTitle .accent{color:var(--green)}
+    .heroLead{
+      margin:0;
+      color:var(--muted);
+      max-width: 72ch;
+    }
+    .heroBtns{
+      margin-top:14px;
+      display:flex;
+      gap:10px;
+      flex-wrap:wrap;
+    }
+    .btn{
+      border:1px solid rgba(35,255,122,.35);
+      background: rgba(35,255,122,.10);
+      color:var(--ink);
+      padding:12px 14px;
+      border-radius:12px;
+      text-decoration:none;
+      display:inline-flex;
+      gap:10px;
+      align-items:center;
+      font-weight:700;
+      transition: transform .15s ease, background .15s ease, border-color .15s ease;
+    }
+    .btn:hover{
+      transform: translateY(-1px);
+      background: rgba(35,255,122,.16);
+      border-color: rgba(35,255,122,.55);
+    }
+    .btn.secondary{
+      border-color: rgba(215,255,230,.18);
+      background: rgba(0,0,0,.20);
+      font-weight:600;
+    }
+
+    .cardGrid{
+      display:grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap:14px;
+      margin-top:14px;
+    }
+    @media (max-width: 900px){
+      .cardGrid{grid-template-columns:1fr}
+    }
+
+    .card{
+      padding:16px 16px;
+      border-radius:16px;
+      border:1px solid var(--line2);
+      background: linear-gradient(180deg, rgba(13,20,16,.55), rgba(8,12,10,.50));
+      box-shadow:0 18px 60px rgba(0,0,0,.40);
+      position:relative;
+      overflow:hidden;
+    }
+    .card::before{
+      content:"";
+      position:absolute;
+      inset:-2px;
+      background: radial-gradient(300px 200px at 30% 10%, rgba(35,255,122,.10), transparent 60%);
+      pointer-events:none;
+      opacity:.8;
+    }
+    .card > *{position:relative}
+    .kicker{
+      font-family:"Press Start 2P", monospace;
+      font-size:10px;
+      letter-spacing:.6px;
+      color: rgba(35,255,122,.85);
+      margin:0 0 10px;
+      text-transform:uppercase;
+    }
+    .card h3{
+      margin:0 0 8px;
+      font-size:16px;
+    }
+    .card p{margin:0;color:var(--muted)}
+    .tags{
+      display:flex;
+      flex-wrap:wrap;
+      gap:8px;
+      margin-top:12px;
+    }
+    .tag{
+      font-size:12px;
+      padding:7px 9px;
+      border-radius:999px;
+      border:1px solid rgba(215,255,230,.14);
+      background: rgba(0,0,0,.20);
+      color: rgba(215,255,230,.90);
+    }
+
+    /* Sections */
+    section{
+      margin-top:18px;
+      padding:18px;
+      border:1px solid var(--line2);
+      border-radius:18px;
+      background: rgba(0,0,0,.16);
+      box-shadow:0 18px 60px rgba(0,0,0,.35);
+    }
+    .sectionTitle{
+      margin:0 0 8px;
+      font-family:"Press Start 2P", monospace;
+      font-size:14px;
+      color:var(--ink);
+      display:flex;
+      align-items:center;
+      gap:10px;
+    }
+    .sectionTitle span{
+      color: rgba(35,255,122,.85);
+      font-size:10px;
+      border:1px solid rgba(35,255,122,.25);
+      padding:4px 8px;
+      border-radius:999px;
+      background: rgba(35,255,122,.06);
+    }
+    .sectionLead{margin:0;color:var(--muted)}
+
+    .twoCol{
+      display:grid;
+      grid-template-columns: 1.05fr .95fr;
+      gap:14px;
+      margin-top:12px;
+    }
+    @media (max-width: 900px){
+      .twoCol{grid-template-columns:1fr}
+    }
+
+    .list{
+      margin:10px 0 0;
+      padding-left:18px;
+      color:var(--muted);
+    }
+    .list li{margin:6px 0}
+    .mono{
+      font-family:"Press Start 2P", monospace;
+      font-size:10px;
+      color: rgba(215,255,230,.85);
+    }
+
+    .projGrid{
+      display:grid;
+      grid-template-columns: repeat(3,1fr);
+      gap:14px;
+      margin-top:12px;
+    }
+    @media (max-width: 900px){
+      .projGrid{grid-template-columns:1fr}
+    }
+    .proj{
+      padding:16px;
+      border-radius:16px;
+      border:1px dashed rgba(35,255,122,.28);
+      background: rgba(7,10,8,.55);
+    }
+    .proj h4{margin:0 0 6px}
+    .proj p{margin:0;color:var(--muted)}
+    .proj .actions{margin-top:12px;display:flex;gap:10px;flex-wrap:wrap}
+    .miniBtn{
+      display:inline-flex;align-items:center;gap:8px;
+      padding:10px 12px;border-radius:12px;
+      border:1px solid rgba(215,255,230,.18);
+      background: rgba(0,0,0,.18);
+      color:var(--ink); text-decoration:none; font-weight:700;
+      font-size:13px;
+    }
+    .miniBtn:hover{border-color: rgba(35,255,122,.45); background: rgba(35,255,122,.08)}
+
+    footer{
+      margin-top:18px;
+      padding:18px;
+      border:1px solid rgba(215,255,230,.12);
+      border-radius:18px;
+      background: rgba(0,0,0,.14);
+      color:var(--muted);
+      display:flex;
+      justify-content:space-between;
+      gap:12px;
+      flex-wrap:wrap;
+    }
+
+    /* === Pixel detective (walks on document, not fixed) === */
+    #pixelGuide{
+      position:absolute; /* <- clave para que "pise" la página */
+      left:12px;
+      top:0px; /* lo controla JS */
+      z-index: 60;
+      display:flex;
+      align-items:flex-end;
+      gap:10px;
+      user-select:none;
+      pointer-events:none; /* el click lo gestiona el sprite */
+    }
+
+    /* Speech bubble */
+    #bubble{
+      max-width:min(340px, 72vw);
+      background: rgba(13,20,16,.92);
+      border: 1px solid rgba(35,255,122,.28);
+      border-radius: 14px;
+      padding: 10px 12px;
+      color: var(--ink);
+      box-shadow:0 18px 50px rgba(0,0,0,.5);
+      display:none;
+      position:relative;
+      font-size:13px;
+      line-height:1.35;
+    }
+    #bubble::after{
+      content:"";
+      position:absolute;
+      left:-8px;
+      bottom:14px;
+      width:14px;height:14px;
+      background: rgba(13,20,16,.92);
+      border-left:1px solid rgba(35,255,122,.28);
+      border-bottom:1px solid rgba(35,255,122,.28);
+      transform: rotate(45deg);
+    }
+
+    /* Sprite wrapper is clickable */
+    #sprite{
+      width:48px;
+      height:48px;
+      border-radius:12px;
+      border:1px solid rgba(35,255,122,.28);
+      background: rgba(0,0,0,.25);
+      box-shadow:0 14px 40px rgba(0,0,0,.55);
+      pointer-events:auto; /* <- para que reciba click aunque el contenedor no */
+      cursor:pointer;      /* mano */
+      display:grid;
+      place-items:center;
+      transition: transform .12s ease, border-color .12s ease, background .12s ease;
+    }
+    #sprite:hover{
+      transform: translateY(-1px);
+      border-color: rgba(35,255,122,.55);
+      background: rgba(35,255,122,.08);
+    }
+    /* The pixel art is a grid */
+    .px{
+      width:32px;height:32px;
+      image-rendering: pixelated;
+      display:grid;
+      grid-template-columns: repeat(16, 2px);
+      grid-template-rows: repeat(16, 2px);
+      gap:0;
+    }
+    .px i{
+      width:2px;height:2px;display:block;
+      background: transparent;
+    }
+
+    /* Small helper: make anchors stand out */
+    a{color:var(--ink)}
+    a:hover{color: var(--green)}
+  </style>
+</head>
+
+<body>
+  <div class="wrap" id="page">
+    <header class="topbar">
+      <div class="brand">
+        <div class="logo" aria-hidden="true"></div>
+        <div>
+          <h1>Sergio<span class="sub">SOC L1 / DFIR · Portfolio (estilo retro)</span></h1>
+        </div>
+      </div>
+
+      <nav class="nav">
+        <a class="pill" href="#skills">🧠 Skills</a>
+        <a class="pill" href="#labs">🧪 Labs</a>
+        <a class="pill" href="#about">👤 About</a>
+        <a class="pill" href="#contact">🔗 Contact</a>
+      </nav>
+    </header>
+
+    <main>
+      <div class="hero" id="top">
+        <div>
+          <h2 class="heroTitle">Analista <span class="accent">SOC L1</span> con enfoque en <span class="accent">DFIR</span></h2>
+          <p class="heroLead">
+            Portfolio personal orientado a investigación en host, reconstrucción de actividad y metodología forense.
+            Estética retro, contenido serio.
+          </p>
+
+          <div class="heroBtns">
+            <a class="btn" href="https://www.linkedin.com/in/sergio-l%C3%B3pez-fern%C3%A1ndez-364b71268/" target="_blank" rel="noreferrer">
+              🔗 LinkedIn
+            </a>
+            <a class="btn secondary" href="https://github.com/sergiolopfer84" target="_blank" rel="noreferrer">
+              💻 GitHub
+            </a>
+          </div>
+
+          <div class="cardGrid">
+            <div class="card">
+              <p class="kicker">[ Foco ]</p>
+              <h3>Investigación host-based</h3>
+              <p>Registro, artefactos de Windows, timelines, integridad de evidencias y reporting.</p>
+              <div class="tags">
+                <span class="tag">NTFS / MFT</span>
+                <span class="tag">Registry</span>
+                <span class="tag">Artefactos</span>
+              </div>
+            </div>
+
+            <div class="card">
+              <p class="kicker">[ Rol ]</p>
+              <h3>SOC L1</h3>
+              <p>Triaging, análisis de señales, correlación básica y escalado con contexto útil.</p>
+              <div class="tags">
+                <span class="tag">Detección</span>
+                <span class="tag">IOCs</span>
+                <span class="tag">Triage</span>
+              </div>
+            </div>
+
+            <div class="card">
+              <p class="kicker">[ Estilo ]</p>
+              <h3>Metódico</h3>
+              <p>Menos “coleccionar tools”, más proceso: hipótesis → evidencias → conclusión.</p>
+              <div class="tags">
+                <span class="tag">Workflow</span>
+                <span class="tag">Evidencias</span>
+                <span class="tag">Documentación</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <aside class="card">
+          <p class="kicker">[ Status ]</p>
+          <h3>En construcción</h3>
+          <p>
+            Esta web es un “save game” personal. Iré añadiendo proyectos top cuando estén claros.
+          </p>
+          <ul class="list">
+            <li><span class="mono">DFIR Labs:</span> estructura, README, capturas y evidencias.</li>
+            <li><span class="mono">PCAP:</span> análisis guiado y extracción de indicadores.</li>
+            <li><span class="mono">Roadmap:</span> SOC L1 + DFIR como base.</li>
+          </ul>
+          <div class="tags">
+            <span class="tag">Retro UI</span>
+            <span class="tag">Scanlines</span>
+            <span class="tag">Pixel NPC</span>
+          </div>
+        </aside>
+      </div>
+
+      <section id="skills">
+        <h3 class="sectionTitle">Skills <span>CORE</span></h3>
+        <p class="sectionLead">Lo que quiero que se vea rápido en una entrevista técnica.</p>
+
+        <div class="twoCol">
+          <div class="card">
+            <p class="kicker">[ DFIR ]</p>
+            <h3>Forense Host</h3>
+            <ul class="list">
+              <li>Adquisición/validación: hashes, lectura segura, evidencias.</li>
+              <li>NTFS: MFT/metadata, timeline, carving básico.</li>
+              <li>Windows artefacts: navegación, ejecución, USB, persistencia.</li>
+              <li>Registro: SAM/SECURITY/SOFTWARE/SYSTEM + análisis con herramientas.</li>
+            </ul>
+          </div>
+
+          <div class="card">
+            <p class="kicker">[ SOC ]</p>
+            <h3>Investigación y Detección</h3>
+            <ul class="list">
+              <li>Revisión de eventos y señales: qué pasó, cuándo y cómo se encadena.</li>
+              <li>Extracción de IOCs y resumen operativo para escalado.</li>
+              <li>PCAP: filtrado, HTTP/host header, objetos y pivots.</li>
+              <li>Documentación clara: pasos, resultados, capturas y conclusiones.</li>
+            </ul>
+          </div>
+        </div>
+      </section>
+
+      <section id="labs">
+        <h3 class="sectionTitle">Labs <span>PORTFOLIO</span></h3>
+        <p class="sectionLead">Espacio para enseñar trabajo “tangible” (readme + capturas + evidencias).</p>
+
+        <div class="projGrid">
+          <div class="proj">
+            <h4>DFIR Labs Portfolio</h4>
+            <p>Repositorio con investigaciones estructuradas (disk, registry, artefacts, PCAP).</p>
+            <div class="actions">
+              <a class="miniBtn" href="https://github.com/sergiolopfer84" target="_blank" rel="noreferrer">Ver GitHub</a>
+              <a class="miniBtn" href="#contact">Añadir enlace</a>
+            </div>
+          </div>
+
+          <div class="proj">
+            <h4>Proyecto Top #1 (placeholder)</h4>
+            <p>Placeholder para tu siguiente lab destacado (USB forensics, ShellBags, Prefetch, etc.).</p>
+            <div class="actions">
+              <a class="miniBtn" href="#" onclick="return false;">Añadir link</a>
+              <a class="miniBtn" href="#" onclick="return false;">Añadir capturas</a>
+            </div>
+          </div>
+
+          <div class="proj">
+            <h4>Proyecto Top #2 (placeholder)</h4>
+            <p>Placeholder para otro lab (Wireshark, detección básica, análisis de logs).</p>
+            <div class="actions">
+              <a class="miniBtn" href="#" onclick="return false;">Añadir link</a>
+              <a class="miniBtn" href="#" onclick="return false;">Añadir resumen</a>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section id="about">
+        <h3 class="sectionTitle">About Me <span>WHY</span></h3>
+        <p class="sectionLead">
+          En vez de “coleccionar herramientas”, me centro en el proceso: preservar, analizar, correlacionar y explicar.
+        </p>
+
+        <div class="twoCol">
+          <div class="card">
+            <p class="kicker">[ Cómo trabajo ]</p>
+            <h3>Metodología</h3>
+            <ul class="list">
+              <li>Defino hipótesis y preguntas concretas (quién / qué / cuándo / cómo).</li>
+              <li>Recojo artefactos relevantes y los correlaciono (timeline + pivots).</li>
+              <li>Escribo un resumen accionable: hallazgos + evidencia + impacto.</li>
+            </ul>
+          </div>
+
+          <div class="card">
+            <p class="kicker">[ Lo que busco ]</p>
+            <h3>Objetivo</h3>
+            <p style="margin:0;color:var(--muted)">
+              Enfocado a posiciones junior de <b>SOC L1</b> / <b>DFIR</b>. Este portfolio está pensado para enseñar evolución real,
+              no para “inflar” con buzzwords.
+            </p>
+            <div class="tags">
+              <span class="tag">Curva de aprendizaje</span>
+              <span class="tag">Práctica</span>
+              <span class="tag">Portfolio</span>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section id="contact">
+        <h3 class="sectionTitle">Contact <span>LINKS</span></h3>
+        <p class="sectionLead">Enlaces directos para ver perfil y repositorios.</p>
+        <div class="heroBtns" style="margin-top:12px">
+          <a class="btn" href="https://www.linkedin.com/in/sergio-l%C3%B3pez-fern%C3%A1ndez-364b71268/" target="_blank" rel="noreferrer">🔗 LinkedIn</a>
+          <a class="btn secondary" href="https://github.com/sergiolopfer84" target="_blank" rel="noreferrer">💻 GitHub</a>
+        </div>
+      </section>
+    </main>
+
+    <footer>
+      <div>© <span id="year"></span> Sergio · Portfolio retro (8-bit)</div>
+      <div class="mono">Tip: haz click en el investigador 👇</div>
+    </footer>
+
+    <!-- =========================
+         Pixel Detective (absolute)
+         ========================= -->
+    <div id="pixelGuide" aria-label="Pixel Detective">
+      <div id="bubble"></div>
+      <div id="sprite" class="clickable" title="Haz click en mí">
+        <div class="px" id="pxArt" aria-hidden="true"></div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    // Year
+    document.getElementById('year').textContent = new Date().getFullYear();
+
+    // =============================
+    // Pixel art detective (16x16)
+    // =============================
+    const pxEl = document.getElementById('pxArt');
+
+    // Build 16x16 pixels
+    const pixels = [];
+    for (let i=0;i<256;i++){
+      const dot = document.createElement('i');
+      pxEl.appendChild(dot);
+      pixels.push(dot);
+    }
+
+    // Palette
+    const C = {
+      t: 'transparent',
+      bg: 'transparent',
+      coat: '#1a3a2a',
+      coat2:'#0f251b',
+      skin: '#f6c7a5',
+      hat:  '#101a14',
+      hat2: '#0a120d',
+      glass:'#23ff7a',
+      glass2:'rgba(35,255,122,.35)',
+      boot: '#0b0f0d',
+      eye:  '#0b0f0d',
+      belt: '#8c7a2a',
+      badge:'#ffdd57'
+    };
+
+    // Two frames: walking vs idle-looking
+    // Legend: letters map to colors
+    const mapColor = (ch) => {
+      switch(ch){
+        case '.': return C.t;
+        case 'H': return C.hat;
+        case 'h': return C.hat2;
+        case 'C': return C.coat;
+        case 'c': return C.coat2;
+        case 'S': return C.skin;
+        case 'E': return C.eye;
+        case 'B': return C.boot;
+        case 'G': return C.glass;
+        case 'g': return C.glass2;
+        case 'L': return C.belt;
+        case '*': return C.badge;
+        default: return C.t;
+      }
+    };
+
+    // Frame 1 (walk)
+    const frameWalk1 = [
+      "....HHHHHH......",
+      "...HhhhhhhH.....",
+      "...Hh....hH.....",
+      "....HHHHHH......",
+      ".....SSSS.......",
+      "....SSEESS......",
+      "...SSSSSSSS.....",
+      "...CCCCCcCC.....",
+      "...CCLCCcCC.....",
+      "...CCCCCcCC.....",
+      "....CCCCC.......",
+      ".....CCC........",
+      "....B...B.......",
+      "...B.....B......",
+      "....B...B.......",
+      ".....B.B........"
+    ].join("");
+
+    // Frame 2 (walk)
+    const frameWalk2 = [
+      "....HHHHHH......",
+      "...HhhhhhhH.....",
+      "...Hh....hH.....",
+      "....HHHHHH......",
+      ".....SSSS.......",
+      "....SSEESS......",
+      "...SSSSSSSS.....",
+      "...CCCCCcCC.....",
+      "...CCLCCcCC.....",
+      "...CCCCCcCC.....",
+      "....CCCCC.......",
+      ".....CCC........",
+      "...B.....B......",
+      "....B...B.......",
+      "...B.....B......",
+      "....B...B......."
+    ].join("");
+
+    // Idle "look at user" frame (with magnifier glow)
+    const frameLook = [
+      "....HHHHHH......",
+      "...HhhhhhhH.....",
+      "...Hh....hH.....",
+      "....HHHHHH......",
+      ".....SSSS.......",
+      "....SSGGSS......",
+      "...SSgGGgSS.....",
+      "...CCCCCcCC.....",
+      "...CCLCCcC*.....",
+      "...CCCCCcCC.....",
+      "....CCCCC.......",
+      ".....CCC........",
+      "....B...B.......",
+      "...B.....B......",
+      "....B...B.......",
+      ".....B.B........"
+    ].join("");
+
+    function paint(frame){
+      for (let i=0;i<256;i++){
+        pixels[i].style.background = mapColor(frame[i]);
+      }
+    }
+
+    // Initial paint
+    paint(frameWalk1);
+
+    // =============================
+    // Walker logic (document-ground)
+    // =============================
+    const guide  = document.getElementById('pixelGuide');
+    const sprite = document.getElementById('sprite');
+    const bubble = document.getElementById('bubble');
+
+    let x = 12;
+    let dir = 1;                // 1 right, -1 left
+    let walking = true;
+    let frame = 0;
+    const speed = 0.55;         // px per tick (tune)
+    const margin = 12;
+
+    // GroundY: bottom of viewport, but in document coords
+    function getGroundY(){
+      // slightly above bottom so it doesn't "sit on border"
+      return window.scrollY + window.innerHeight - 18 - guide.offsetHeight;
+    }
+
+    // maxX uses sprite width only (bubble doesn't affect bounds)
+    function getMaxX(){
+      return (window.innerWidth - sprite.offsetWidth - margin);
+    }
+
+    function updatePosition(){
+      guide.style.left = x + 'px';
+      guide.style.top  = getGroundY() + 'px';
+    }
+
+    // Keep in view on scroll (so it stays on the "floor" of the page)
+    window.addEventListener('scroll', () => updatePosition(), {passive:true});
+    window.addEventListener('resize', () => {
+      x = Math.min(x, getMaxX());
+      updatePosition();
+    });
+
+    // Click: stop, look at user, show bubble
+    const welcomeLines = [
+      "¡Bienvenido al portfolio!",
+      "Aquí verás labs SOC/DFIR con evidencias y conclusiones.",
+      "Pista: mira Skills y Labs 😉"
+    ];
+    let bubbleIndex = 0;
+    let bubbleTimer = null;
+
+    function showBubble(text){
+      bubble.textContent = text;
+      bubble.style.display = 'block';
+      clearTimeout(bubbleTimer);
+      bubbleTimer = setTimeout(() => {
+        bubble.style.display = 'none';
+      }, 3200);
+    }
+
+    sprite.addEventListener('click', (e) => {
+      e.preventDefault();
+      walking = !walking;
+      if (!walking){
+        paint(frameLook);
+        showBubble(welcomeLines[bubbleIndex % welcomeLines.length]);
+        bubbleIndex++;
+      } else {
+        bubble.style.display = 'none';
+      }
+    });
+
+    // Small "look at user" when you click anywhere on page items (optional, nice touch)
+    document.addEventListener('click', (e) => {
+      // ignore if clicking sprite itself
+      if (e.target === sprite || sprite.contains(e.target)) return;
+
+      // if click was on a link/button, do a short pause/look
+      const clickable = e.target.closest('a,button,[role="button"],.clickable');
+      if (clickable){
+        const wasWalking = walking;
+        walking = false;
+        paint(frameLook);
+        showBubble("👀 Click detectado. Buen pivot.");
+        setTimeout(() => {
+          if (wasWalking) {
+            walking = true;
+            bubble.style.display = 'none';
+          }
+        }, 900);
+      }
+    });
+
+    // Animation loop
+    function tick(){
+      if (walking){
+        x += dir * speed;
+        const maxX = getMaxX();
+
+        if (x <= margin){
+          x = margin;
+          dir = 1;
+        } else if (x >= maxX){
+          x = maxX;
+          dir = -1;
+        }
+
+        // walking frames
+        frame = (frame + 1) % 24;
+        if (frame === 0) paint(frameWalk1);
+        if (frame === 12) paint(frameWalk2);
+      }
+
+      updatePosition();
+      requestAnimationFrame(tick);
+    }
+
+    // Start
+    updatePosition();
+    requestAnimationFrame(tick);
+  </script>
+</body>
+</html>
