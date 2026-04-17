@@ -120,7 +120,7 @@ maltego-phishing-analysis/
 ## 📌 Recursos relacionados
 
 - 📄 [Informe completo en este repositorio](informe_phishing_correos.pdf)
-- 🔗 [Post de LinkedIn sobre este análisis](#) ← *(actualizar con el enlace tras publicar)*
+- 🔗 [Post de LinkedIn sobre este análisis](https://www.linkedin.com/posts/sergiolopez-blueam_ciberseguridad-blueteam-osint-activity-7451036218945028096-5e6R?utm_source=share&utm_medium=member_desktop&rcm=ACoAAEGrA7wBLUN49Pl16SfyLy1yemk40bxESjc)
 - 📚 [INCIBE — Reporte de phishing (017)](https://www.incibe.es/linea-de-ayuda-en-ciberseguridad)
 
 ---
